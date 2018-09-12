@@ -55,4 +55,7 @@
            #:canvas-font-metrics
            #:canvas-font-line-height
            #:canvas-font-ascender
-           #:canvas-font-descender))
+           #:canvas-font-descender
+
+           #:make-image
+           #:make-rgba-image))
