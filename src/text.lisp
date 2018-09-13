@@ -53,10 +53,10 @@
   (once-only (font)
     `(unwind-protect
           (let ((*active-font* ,font))
-            (%apply-font ,font)
+            (%apply-font *canvas* ,font)
             ,@body)
        (when *active-font*
-         (%apply-font *active-font*)))))
+         (%apply-font *canvas* *active-font*)))))
 
 
 (defun canvas-text-bounds (string &optional (canvas *canvas*))

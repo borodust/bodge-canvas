@@ -18,6 +18,8 @@
            #:stroke-paint
            #:fill-paint
            #:make-image-paint
+           #:image-paint-width
+           #:image-paint-height
 
            #:scissors
            #:move-to
@@ -58,4 +60,5 @@
            #:canvas-font-descender
 
            #:make-image
-           #:make-rgba-image))
+           #:make-rgba-image
+           #:destroy-image))

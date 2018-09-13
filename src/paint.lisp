@@ -31,9 +31,9 @@
 
 
 (defmethod initialize-instance :after ((this image-paint) &key image)
-  (with-slots ((this-image image)) this
+  (with-slots ((this-image image) handle) this
     (setf this-image image)
-    (%nvg:image-pattern (%handle-of this) *handle*
+    (%nvg:image-pattern handle (%handle-of this)
                         0.0 0.0 (f (nvg-image-width image)) (f (nvg-image-height image))
                         0.0
                         (nvg-image-id image) 1.0)))
@@ -41,6 +41,16 @@
 
 (defun make-image-paint (image)
   (make-instance 'image-paint :image image))
+
+
+(defun image-paint-height (paint)
+  (with-slots (image) paint
+    (nvg-image-height image)))
+
+
+(defun image-paint-width (paint)
+  (with-slots (image) paint
+    (nvg-image-width image)))
 
 
 (defmethod (setf fill-paint) ((value image-paint))
