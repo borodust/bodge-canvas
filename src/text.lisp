@@ -61,10 +61,11 @@
 
 (defun canvas-text-bounds (string &optional (canvas *canvas*))
   (static-vectors:with-static-vector (bounds 4 :element-type 'single-float)
-    (let ((advance (%nvg:text-bounds (%handle-of canvas) 0f0 0f0 string (cffi:null-pointer)
-                                     (static-vectors:static-vector-pointer bounds))))
-      (values (vec4 (aref bounds 0) (- (aref bounds 1)) (aref bounds 2) (- (aref bounds 3)))
-              advance))))
+    (let* ((advance (%nvg:text-bounds (%handle-of canvas) 0f0 0f0 string (cffi:null-pointer)
+                                      (static-vectors:static-vector-pointer bounds)))
+           (height (- (aref bounds 3) (aref bounds 1)))
+           (width (- (aref bounds 2) (aref bounds 0))))
+      (values (vec2 (aref bounds 0) (- (aref bounds 3))) width height advance))))
 
 
 (defun canvas-text-advance (string &optional (canvas *canvas*))
