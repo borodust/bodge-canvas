@@ -206,7 +206,8 @@
     (apply #'gl:bind-texture (or bound-texture-at-0 '(:texture-2d 0)))
     (when active-texture
       (gl:active-texture active-texture))
-    (gl:bind-vertex-array (or bound-vertex-array 0))
+    (unless (uiop:featurep :bodge-gl2)
+      (gl:bind-vertex-array (or bound-vertex-array 0)))
     (gl:pixel-store :unpack-alignment (or unpack-alignment 4))
     (gl:pixel-store :unpack-row-length (or unpack-row-length 0))
     (gl:pixel-store :unpack-skip-pixels (or unpack-skip-pixels 0))
