@@ -1,6 +1,18 @@
 (cl:in-package :bodge-canvas)
 
 
+(defgeneric fill-paint ()
+  (:documentation "Use with setf to set fill color or paint of the path")
+  (:method () (error "Only setter is available")))
+
+
+(defgeneric stroke-paint ()
+  (:documentation "Use with setf to set stroke color or paint of the path")
+  (:method () (error "Only setter is available")))
+
+
+(defgeneric stroke-paint (value))
+
 (defgeneric (setf fill-paint) (value))
 (defgeneric (setf stroke-paint) (value))
 

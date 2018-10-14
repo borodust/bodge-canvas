@@ -1,6 +1,11 @@
 (cl:in-package :bodge-canvas)
 
 
+(defenum path-winding
+  :solid
+  :hole)
+
+
 (definline fill-path ()
   (%nvg:fill *handle*))
 
@@ -9,12 +14,28 @@
   (%nvg:stroke *handle*))
 
 
-(definline move-to (coords)
-  (%nvg:move-to *handle* (x coords) (y coords)))
+(defun stroke-width ()
+  "Use with setf to set stroke width (line thickness) of the path"
+  (error "Only setter is available"))
 
 
 (definline (setf stroke-width) (width)
   (%nvg:stroke-width *handle* (f width)))
+
+
+(definline winding->nvg (winding)
+  (case winding
+    (:solid %nvg:+solid+)
+    (:hole %nvg:+hole+)
+    (t (error "Unrecognized winding ~A" winding))))
+
+
+(defun wind-path (winding)
+  (%nvg:path-winding *handle* (winding->nvg winding)))
+
+
+(definline move-to (coords)
+  (%nvg:move-to *handle* (x coords) (y coords)))
 
 
 (defmacro path (&body body)

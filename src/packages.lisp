@@ -15,6 +15,7 @@
            #:path
            #:fill-path
            #:stroke-path
+           #:stroke-width
            #:stroke-paint
            #:fill-paint
            #:make-image-paint
@@ -30,6 +31,7 @@
            #:ellipse
            #:arc
            #:text
+           #:wind-path
 
            #:apply-scissors
            #:draw-line
