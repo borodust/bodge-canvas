@@ -11,7 +11,7 @@
     (setf (fill-paint) fill-paint)
     (fill-path))
   (when stroke-paint
-    (setf (stroke-width) thickness
+    (setf (stroke-width) (or thickness 1.0)
           (stroke-paint) stroke-paint)
     (stroke-path)))
 
@@ -20,7 +20,7 @@
   (path
     (move-to origin)
     (line-to end)
-    (setf (stroke-width) thickness
+    (setf (stroke-width) (or thickness 1.0)
           (stroke-paint) paint)
     (stroke-path)))
 
@@ -30,7 +30,7 @@
     (move-to origin)
     (bezier-to ctrl0 ctrl1 end)
     (setf (stroke-paint) paint
-          (stroke-width) thickness)
+          (stroke-width) (or thickness 1.0))
     (stroke-path)))
 
 
@@ -74,5 +74,5 @@
     (move-to (car points))
     (loop for point in (rest points) do (line-to point))
     (setf (stroke-paint) paint
-          (stroke-width) thickness)
+          (stroke-width) (or thickness 1.0))
     (stroke-path)))
