@@ -19,6 +19,8 @@
            #:stroke-paint
            #:fill-paint
            #:make-image-paint
+           #:make-rgba-image-paint
+           #:destroy-image-paint
            #:image-paint-width
            #:image-paint-height
 
@@ -59,8 +61,4 @@
            #:canvas-font-metrics
            #:canvas-font-line-height
            #:canvas-font-ascender
-           #:canvas-font-descender
-
-           #:make-image
-           #:make-rgba-image
-           #:destroy-image))
+           #:canvas-font-descender))

@@ -33,13 +33,9 @@
   (stroke-color (bodge-math:value->vec4 color :w 1)))
 
 
-(defclass image-paint (disposable)
+(defclass image-paint ()
   ((handle :initform (alloc '(:struct (%nvg:paint))) :reader %handle-of)
    (image :initform nil)))
-
-
-(define-destructor image-paint (handle)
-  (free handle))
 
 
 (defmethod initialize-instance :after ((this image-paint) &key image)
@@ -51,8 +47,25 @@
                         (nvg-image-id image) 1.0)))
 
 
-(defun make-image-paint (image)
-  (make-instance 'image-paint :image image))
+(defun make-image-paint (context image &key flip-vertically use-nearest-interpolation)
+  "Image must be an array or list of bytes of encoded .jpg, .png, .psd, .tga, .pic or .gif file"
+  (make-instance 'image-paint
+                 :image (make-image context image
+                                    :flip-vertically flip-vertically
+                                    :use-nearest-interpolation use-nearest-interpolation)))
+
+
+(defun make-rgba-image-paint (context image width height &key flip-vertically use-nearest-interpolation)
+  (make-instance 'image-paint
+                 :image (make-rgba-image context image width height
+                                         :flip-vertically flip-vertically
+                                         :use-nearest-interpolation use-nearest-interpolation)))
+
+
+(defun destroy-image-paint (context image-paint)
+  (with-slots (image handle) image-paint
+    (destroy-image context image)
+    (free handle)))
 
 
 (defun image-paint-height (paint)

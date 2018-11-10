@@ -22,22 +22,22 @@
 
 (defun make-image (context image &key flip-vertically use-nearest-interpolation)
   "Image must be an array or list of bytes of encoded .jpg, .png, .psd, .tga, .pic or .gif file"
-  (static-vectors:with-static-vector (data (length image) :initial-contents image)
-    (let ((id (apply #'nvg:make-image (%handle-of context) (static-vectors:static-vector-pointer data)
+  (bodge-util:with-simple-array-pointer (ptr image)
+    (let ((id (apply #'nvg:make-image (%handle-of context) ptr
                      (%arrange-opts flip-vertically use-nearest-interpolation))))
       (c-with ((width :int)
                (height :int))
         (%nvg:image-size *handle* id (width &) (height &))
-        (make-instance 'nvg-image :id id :data data :width width :height height)))))
+        (make-instance 'nvg-image :id id :width width :height height)))))
 
 
 (defun make-rgba-image (context image width height &key flip-vertically use-nearest-interpolation)
   (let ((expected-size (* width height 4)))
-    (unless (= expected-size (length image))
+    (unless (= expected-size (reduce #'* (array-dimensions image)))
       (error "Wrong size of image array: expected ~A, got ~A" expected-size (length image))))
-  (static-vectors:with-static-vector (data (length image) :initial-contents image)
+  (bodge-util:with-simple-array-pointer (ptr image)
     (let ((id (apply #'nvg:make-rgba-image (%handle-of context)
                      (floor width) (floor height)
-                     (static-vectors:static-vector-pointer data)
+                     ptr
                      (%arrange-opts flip-vertically use-nearest-interpolation))))
       (make-instance 'nvg-image :id id :width width :height height))))
