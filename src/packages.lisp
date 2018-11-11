@@ -39,6 +39,7 @@
            #:draw-line
            #:draw-curve
            #:draw-rect
+           #:draw-image
            #:draw-circle
            #:draw-ellipse
            #:draw-arc

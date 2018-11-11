@@ -32,12 +32,14 @@
 
 
 (defun make-rgba-image (context image width height &key flip-vertically use-nearest-interpolation)
-  (let ((expected-size (* width height 4)))
-    (unless (= expected-size (reduce #'* (array-dimensions image)))
-      (error "Wrong size of image array: expected ~A, got ~A" expected-size (length image))))
+  (let* ((width (floor width))
+         (height (floor height))
+         (expected-size (* width height 4))
+         (actual-size (reduce #'* (array-dimensions image))))
+    (unless (= expected-size actual-size)
+      (error "Wrong size of image array: expected ~A, got ~A" expected-size actual-size)))
   (bodge-util:with-simple-array-pointer (ptr image)
     (let ((id (apply #'nvg:make-rgba-image (%handle-of context)
-                     (floor width) (floor height)
-                     ptr
+                     width height ptr
                      (%arrange-opts flip-vertically use-nearest-interpolation))))
       (make-instance 'nvg-image :id id :width width :height height))))

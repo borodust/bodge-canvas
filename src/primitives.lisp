@@ -41,6 +41,23 @@
     (stroke-and-fill stroke-paint fill-paint thickness)))
 
 
+(defun draw-image (origin w h image-paint &key (stroke-paint nil)
+                                            (thickness 1.0)
+                                            (rounding 0.0)
+                                            (scale-x 1.0)
+                                            (scale-y 1.0)
+                                            (translate-x 0.0)
+                                            (translate-y 0.0)
+                                            (rotate 0.0))
+  (path
+    (rounded-rect origin w h rounding)
+    (with-retained-canvas
+      (translate-canvas (+ (x origin) translate-x) (+ (y origin) translate-y))
+      (scale-canvas scale-x scale-y)
+      (rotate-canvas rotate)
+      (stroke-and-fill stroke-paint image-paint thickness))))
+
+
 (defun draw-circle (center radius &key (fill-paint nil) (stroke-paint nil) (thickness 1.0))
   (path
     (circle center radius)
