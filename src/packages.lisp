@@ -35,6 +35,7 @@
            #:text
            #:wind-path
 
+           #:clear-buffers
            #:apply-scissors
            #:draw-line
            #:draw-curve

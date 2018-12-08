@@ -1,5 +1,13 @@
 (cl:in-package :bodge-canvas)
 
+(defvar *default-clear-color* (vec4 1 1 1 1))
+
+(defun clear-buffers (&optional (clear-color *default-clear-color*))
+  (gl:clear-color (x clear-color)
+                  (y clear-color)
+                  (z clear-color)
+                  (w clear-color))
+  (gl:clear :color-buffer :stencil-buffer))
 
 (defun apply-scissors (origin w h)
   (path
