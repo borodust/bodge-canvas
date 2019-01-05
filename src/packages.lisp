@@ -36,6 +36,7 @@
            #:wind-path
 
            #:clear-buffers
+           #:reset-viewport
            #:apply-scissors
            #:draw-line
            #:draw-curve

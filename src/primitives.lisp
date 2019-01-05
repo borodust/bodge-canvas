@@ -9,6 +9,14 @@
                   (w clear-color))
   (gl:clear :color-buffer :stencil-buffer))
 
+
+(defun reset-viewport (&optional (x 0) (y 0) width height (canvas *canvas*))
+  (let* ((pixel-ratio (%pixel-ratio-of canvas))
+         (width (* (or width (canvas-width canvas)) pixel-ratio))
+         (height (* (or height (canvas-height canvas)) pixel-ratio)))
+    (gl:viewport x y width height)))
+
+
 (defun apply-scissors (origin w h)
   (path
     (scissors origin w h)))
