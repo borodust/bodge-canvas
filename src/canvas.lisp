@@ -105,7 +105,7 @@
 
 (defun begin-canvas ()
   (%nvg:begin-frame *handle* (f (canvas-width *canvas*)) (f (canvas-height *canvas*))
-                    (%pixel-ratio-of *canvas*))
+                    (f (%pixel-ratio-of *canvas*)))
   (%invert-coordinate-system))
 
 
