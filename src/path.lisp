@@ -6,6 +6,18 @@
   :hole)
 
 
+(defenum line-cap
+  :butt
+  :round
+  :square)
+
+
+(defenum line-join
+  :miter
+  :round
+  :bevel)
+
+
 (definline fill-path ()
   (%nvg:fill *handle*))
 
@@ -48,6 +60,38 @@
   (%nvg:scissor *handle*
                 (x origin) (y origin)
                 (f w) (f h)))
+
+
+(definline line-cap->nvg (cap)
+  (case cap
+    (:butt %nvg:+butt+)
+    (:round %nvg:+round+)
+    (:square %nvg:+square+)
+    (t (error "Unrecognized line cap ~A" cap))))
+
+
+(definline line-join->nvg (join)
+  (case join
+    (:round %nvg:+round+)
+    (:bevel %nvg:+bevel+)
+    (:miter %nvg:+miter+)
+    (t (error "Unrecognized line join ~A" join))))
+
+
+(defun line-cap ()
+  (error "Only setter available"))
+
+
+(defun (setf line-cap) (value)
+  (%nvg:line-cap *handle* (line-cap->nvg value)))
+
+
+(defun line-join ()
+  (error "Only setter available"))
+
+
+(defun (setf line-join) (value)
+  (%nvg:line-join *handle* (line-join->nvg value)))
 
 
 (defun line-to (end)

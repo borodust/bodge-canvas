@@ -34,6 +34,8 @@
            #:arc
            #:text
            #:wind-path
+           #:line-cap
+           #:line-join
 
            #:clear-buffers
            #:reset-viewport
