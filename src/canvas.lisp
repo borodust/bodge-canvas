@@ -59,8 +59,8 @@
 
 (defun update-canvas-size (canvas width height)
   (with-slots ((w width) (h height)) canvas
-    (setf w (floor width)
-          h (floor height))))
+    (setf w (round width)
+          h (round height))))
 
 
 (defun update-canvas-pixel-ratio (canvas pixel-ratio)

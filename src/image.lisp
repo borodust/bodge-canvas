@@ -32,8 +32,8 @@
 
 
 (defun make-rgba-image (context image width height &key flip-vertically use-nearest-interpolation)
-  (let* ((width (floor width))
-         (height (floor height))
+  (let* ((width (round width))
+         (height (round height))
          (expected-size (* width height 4))
          (actual-size (reduce #'* (array-dimensions image))))
     (unless (= expected-size actual-size)
