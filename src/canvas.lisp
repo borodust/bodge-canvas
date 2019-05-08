@@ -255,3 +255,7 @@
                   ,unpack-row-length
                   ,unpack-skip-pixels
                   ,unpack-skip-rows)))
+
+
+(defun antialias-shapes (value)
+  (%nvg:shape-anti-alias *handle* (if value 1 0)))

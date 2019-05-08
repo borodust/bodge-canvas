@@ -18,6 +18,7 @@
            #:stroke-width
            #:stroke-paint
            #:fill-paint
+           #:antialias-shapes
            #:make-image-paint
            #:make-rgba-image-paint
            #:destroy-image-paint
