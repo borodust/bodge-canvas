@@ -3,6 +3,7 @@
   :author "Pavel Korolev"
   :mailto "dev@borodust.org"
   :version "1.0.0"
+  :license "MIT"
   :depends-on (bodge-utilities bodge-math bodge-memory bodge-nanovg nanovg-blob
                                cl-muth cl-opengl static-vectors)
   :pathname "src/"
