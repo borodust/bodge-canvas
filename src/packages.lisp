@@ -25,6 +25,10 @@
            #:image-paint-width
            #:image-paint-height
 
+           #:with-composite-operation
+           #:with-blend-factors
+           #:with-alpha
+
            #:scissors
            #:move-to
            #:line-to

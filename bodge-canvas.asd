@@ -13,6 +13,7 @@
                (:file "image")
                (:file "paint")
                (:file "path")
+               (:file "blending")
                (:file "primitives")
                (:file "transform")
                (:file "text")))
