@@ -108,10 +108,20 @@
        (switch-blend-factors ,canvas))))
 
 
-(defmacro with-alpha ((value &optional (canvas *canvas*)) &body body)
-  (once-only (value canvas)
-    `(unwind-protect
-          (let ((*alpha* (float ,value 0f0)))
-            (%nvg:global-alpha (%handle-of ,canvas) *alpha*)
-            ,@body)
-       (%nvg:global-alpha (%handle-of ,canvas) *alpha*))))
+(defmacro with-alpha ((value &key (override nil override-provided-p)
+                               (canvas nil canvas-provided-p)) &body body)
+  (once-only (value)
+    (with-gensyms (cnvs)
+      `(let ((,cnvs ,(if canvas-provided-p
+                         `(or ,canvas *canvas*)
+                         `*canvas*))
+             (*alpha* ,(if override-provided-p
+                           `(if ,override
+                                (float ,value 0f0)
+                                (* (float ,value 0f0) *alpha*))
+                           `(* (float ,value 0f0) *alpha*))))
+         (unwind-protect
+              (progn
+                (%nvg:global-alpha (%handle-of ,cnvs) *alpha*)
+                ,@body)
+           (%nvg:global-alpha (%handle-of ,cnvs) *alpha*))))))
