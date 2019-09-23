@@ -34,7 +34,7 @@
 
 
 (defclass image-paint ()
-  ((handle :initform (alloc '(:struct (%nvg:paint))) :reader %handle-of)
+  ((handle :initform (cffi:foreign-alloc '(:struct %nvg:paint)) :reader %handle-of)
    (image :initform nil)))
 
 
@@ -65,7 +65,7 @@
 (defun destroy-image-paint (context image-paint)
   (with-slots (image handle) image-paint
     (destroy-image context image)
-    (free handle)))
+    (cffi:foreign-free handle)))
 
 
 (defun image-paint-height (paint)

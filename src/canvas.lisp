@@ -135,7 +135,7 @@
           (color-v :g) (y color)
           (color-v :b) (z color)
           (color-v :a) (w color))
-    (%nvg:stroke-color *handle* color-v)))
+    (%nvg:stroke-color *handle* (color-v &))))
 
 
 (defun fill-color (color)
@@ -144,7 +144,7 @@
           (color-v :g) (y color)
           (color-v :b) (z color)
           (color-v :a) (w color))
-    (%nvg:fill-color *handle* color-v)))
+    (%nvg:fill-color *handle* (color-v &))))
 
 
 (defun push-canvas ()

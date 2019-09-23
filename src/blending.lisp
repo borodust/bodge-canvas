@@ -38,17 +38,10 @@
 
 
 (defun composite-operation->nvg (op)
-  (ecase op
-    (:source-over %nvg:+source-over+)
-    (:source-in %nvg:+source-in+)
-    (:source-atop %nvg:+atop+)
-    (:destination-over %nvg:+destination-over+)
-    (:destination-in %nvg:+destination-in+)
-    (:destination-out %nvg:+destination-out+)
-    (:destination-atop %nvg:+destination-atop+)
-    (:lighter %nvg:+lighter+)
-    (:copy %nvg:+copy+)
-    (:xor %nvg:+source-over+)))
+  (cffi:foreign-enum-value '%nvg:composite-operation
+                           (case op
+                             (:source-atop :atop)
+                             (t op))))
 
 
 (defun switch-composite-operation (canvas)
@@ -69,18 +62,18 @@
 ;;; BLENDING
 ;;;
 (defun blend-factor->nvg (op)
-  (ecase op
-    (:zero %nvg:+zero+)
-    (:one %nvg:+one+)
-    (:source-color %nvg:+src-color+)
-    (:one-minus-source-color %nvg:+one-minus-src-color+)
-    (:destination-color %nvg:+dst-color+)
-    (:one-minus-destination-color %nvg:+one-minus-dst-color+)
-    (:source-alpha %nvg:+src-alpha+)
-    (:one-minus-source-alpha %nvg:+one-minus-src-alpha+)
-    (:destination-alpha %nvg:+dst-alpha+)
-    (:one-minus-destination-alpha %nvg:+one-minus-dst-alpha+)
-    (:srouce-alpha-saturate %nvg:+src-alpha-saturate+)))
+  (cffi:foreign-enum-value '%nvg:blend-factor
+                           (case op
+                             (:source-color :src-color)
+                             (:one-minus-source-color :one-minus-src-color)
+                             (:destination-color :dst-color)
+                             (:one-minus-destination-color :one-minus-dst-color)
+                             (:source-alpha :src-alpha)
+                             (:one-minus-source-alpha :one-minus-src-alpha)
+                             (:destination-alpha :dst-alpha)
+                             (:one-minus-destination-alpha :one-minus-dst-alpha)
+                             (:source-alpha-saturate :src-alpha-saturate)
+                             (t op))))
 
 
 (defun switch-blend-factors (canvas)

@@ -1,5 +1,5 @@
 (bodge-util:define-package :bodge-canvas
-  (:use :cl :bodge-util :bodge-memory :bodge-math :claw)
+  (:use :cl :bodge-util :bodge-memory :bodge-math :claw :cffi-c-ref)
   (:export #:make-canvas
            #:canvas-width
            #:canvas-height

@@ -1,6 +1,9 @@
 (cl:in-package :bodge-canvas)
 
 
+(define-constant +default-winding+ (cffi:foreign-bitfield-value '%nvg:winding :cw)
+  :test #'=)
+
 (defenum path-winding
   :solid
   :hole)
@@ -35,15 +38,9 @@
   (%nvg:stroke-width *handle* (f width)))
 
 
-(definline winding->nvg (winding)
-  (case winding
-    (:solid %nvg:+solid+)
-    (:hole %nvg:+hole+)
-    (t (error "Unrecognized winding ~A" winding))))
-
-
 (defun wind-path (winding)
-  (%nvg:path-winding *handle* (winding->nvg winding)))
+  (%nvg:path-winding *handle* (cffi:foreign-bitfield-value '%nanovg:solidity
+                                                           winding)))
 
 
 (definline move-to (coords)
@@ -62,28 +59,12 @@
                 (f w) (f h)))
 
 
-(definline line-cap->nvg (cap)
-  (case cap
-    (:butt %nvg:+butt+)
-    (:round %nvg:+round+)
-    (:square %nvg:+square+)
-    (t (error "Unrecognized line cap ~A" cap))))
-
-
-(definline line-join->nvg (join)
-  (case join
-    (:round %nvg:+round+)
-    (:bevel %nvg:+bevel+)
-    (:miter %nvg:+miter+)
-    (t (error "Unrecognized line join ~A" join))))
-
-
 (defun line-cap ()
   (error "Only setter available"))
 
 
 (defun (setf line-cap) (value)
-  (%nvg:line-cap *handle* (line-cap->nvg value)))
+  (%nvg:line-cap *handle* (cffi:foreign-enum-value '%nvg:line-cap value)))
 
 
 (defun line-join ()
@@ -91,7 +72,7 @@
 
 
 (defun (setf line-join) (value)
-  (%nvg:line-join *handle* (line-join->nvg value)))
+  (%nvg:line-join *handle* (cffi:foreign-enum-value '%nvg:line-join value)))
 
 
 (defun line-to (end)
@@ -122,7 +103,7 @@
 
 (defun arc (center radius a0 a1)
   (%nvg:arc *handle* (x center) (y center) (f radius)
-            (f a0) (f a1) %nvg:+cw+))
+            (f a0) (f a1) +default-winding+))
 
 
 (defun text (position text)
