@@ -72,7 +72,7 @@
 
 
 (defun (setf line-join) (value)
-  (%nvg:line-join *handle* (cffi:foreign-enum-value '%nvg:line-join value)))
+  (%nvg:line-join *handle* (cffi:foreign-enum-value '%nvg:line-cap value)))
 
 
 (defun line-to (end)
