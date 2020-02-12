@@ -107,14 +107,13 @@
     (with-gensyms (cnvs)
       `(let ((,cnvs ,(if canvas-provided-p
                          `(or ,canvas *canvas*)
-                         `*canvas*))
-             (*alpha* ,(if override-provided-p
-                           `(if ,override
-                                (float ,value 0f0)
-                                (* (float ,value 0f0) *alpha*))
-                           `(* (float ,value 0f0) *alpha*))))
+                         `*canvas*)))
          (unwind-protect
-              (progn
+              (let ((*alpha* ,(if override-provided-p
+                                  `(if ,override
+                                       (float ,value 0f0)
+                                       (* (float ,value 0f0) *alpha*))
+                                  `(* (float ,value 0f0) *alpha*))))
                 (%nvg:global-alpha (%handle-of ,cnvs) *alpha*)
                 ,@body)
            (%nvg:global-alpha (%handle-of ,cnvs) *alpha*))))))
