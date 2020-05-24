@@ -23,11 +23,11 @@
 (defun make-image (context image &key flip-vertically use-nearest-interpolation)
   "Image must be an array or list of bytes of encoded .jpg, .png, .psd, .tga, .pic or .gif file"
   (bodge-util:with-simple-array-pointer (ptr image)
-    (let ((id (apply #'nvg:make-image (%handle-of context) ptr
+    (let ((id (apply #'nvg:make-image (%handle-of context) ptr (length image)
                      (%arrange-opts flip-vertically use-nearest-interpolation))))
       (c-with ((width :int)
                (height :int))
-        (%nvg:image-size *handle* id (width &) (height &))
+        (%nvg:image-size (%handle-of context) id (width &) (height &))
         (make-instance 'nvg-image :id id :width width :height height)))))
 
 
