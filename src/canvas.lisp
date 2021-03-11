@@ -2,7 +2,7 @@
 
 
 (declaim (special *canvas*
-                  *handle*))
+                  *canvas-handle*))
 
 
 (defvar *default-font-name* "NotoMono-Regular")
@@ -94,23 +94,23 @@
 
 
 (defun %invert-coordinate-system ()
-  (%nvg:translate *handle* 0f0 (f (canvas-height *canvas*)))
-  (%nvg:scale *handle* 1f0 -1f0))
+  (%nvg:translate *canvas-handle* 0f0 (f (canvas-height *canvas*)))
+  (%nvg:scale *canvas-handle* 1f0 -1f0))
 
 
 (defun %restore-coordinate-system ()
-  (%nvg:scale *handle* 1f0 -1f0)
-  (%nvg:translate *handle* 0f0 (f (- (canvas-height *canvas*)))))
+  (%nvg:scale *canvas-handle* 1f0 -1f0)
+  (%nvg:translate *canvas-handle* 0f0 (f (- (canvas-height *canvas*)))))
 
 
 (defun begin-canvas ()
-  (%nvg:begin-frame *handle* (f (canvas-width *canvas*)) (f (canvas-height *canvas*))
+  (%nvg:begin-frame *canvas-handle* (f (canvas-width *canvas*)) (f (canvas-height *canvas*))
                     (f (%pixel-ratio-of *canvas*)))
   (%invert-coordinate-system))
 
 
 (defun end-canvas ()
-  (%nvg:end-frame *handle*))
+  (%nvg:end-frame *canvas-handle*))
 
 
 (defun flush-canvas ()
@@ -121,7 +121,7 @@
 (defmacro with-canvas ((canvas) &body body)
   (once-only (canvas)
     `(let ((*canvas* ,canvas)
-           (*handle* (%handle-of ,canvas)))
+           (*canvas-handle* (%handle-of ,canvas)))
        (unwind-protect
             (progn
               (begin-canvas)
@@ -135,7 +135,7 @@
           (color-v :g) (y color)
           (color-v :b) (z color)
           (color-v :a) (w color))
-    (%nvg:stroke-color *handle* (color-v &))))
+    (%nvg:stroke-color *canvas-handle* (color-v &))))
 
 
 (defun fill-color (color)
@@ -144,19 +144,19 @@
           (color-v :g) (y color)
           (color-v :b) (z color)
           (color-v :a) (w color))
-    (%nvg:fill-color *handle* (color-v &))))
+    (%nvg:fill-color *canvas-handle* (color-v &))))
 
 
 (defun push-canvas ()
-  (%nvg:save *handle*))
+  (%nvg:save *canvas-handle*))
 
 
 (defun pop-canvas ()
-  (%nvg:restore *handle*))
+  (%nvg:restore *canvas-handle*))
 
 
 (defun reset-canvas ()
-  (%nvg:reset *handle*))
+  (%nvg:reset *canvas-handle*))
 
 
 (defmacro with-retained-canvas (&body body)
@@ -258,4 +258,4 @@
 
 
 (defun antialias-shapes (value)
-  (%nvg:shape-anti-alias *handle* (if value 1 0)))
+  (%nvg:shape-anti-alias *canvas-handle* (if value 1 0)))

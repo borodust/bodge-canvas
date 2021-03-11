@@ -35,7 +35,7 @@
 
 
 (defun %apply-font (canvas font)
-  (let ((context *handle*))
+  (let ((context *canvas-handle*))
     (if-let ((face-id (%face-of font)))
       (%nvg:font-face-id context face-id)
       (%nvg:font-face-id context (%default-font-of canvas)))

@@ -2,21 +2,21 @@
 
 
 (defun translate-canvas (x y)
-  (%nvg:translate *handle* (f x) (f y)))
+  (%nvg:translate *canvas-handle* (f x) (f y)))
 
 
 (defun rotate-canvas (angle)
-  (%nvg:rotate *handle* (f angle)))
+  (%nvg:rotate *canvas-handle* (f angle)))
 
 
 (defun skew-canvas (x y)
-  (%nvg:skew-x *handle* (f x))
-  (%nvg:skew-y *handle* (f y)))
+  (%nvg:skew-x *canvas-handle* (f x))
+  (%nvg:skew-y *canvas-handle* (f y)))
 
 
 (defun scale-canvas (x y)
-  (%nvg:scale *handle* (f x) (f y)))
+  (%nvg:scale *canvas-handle* (f x) (f y)))
 
 
 (defun reset-canvas-transform ()
-  (%nvg:reset-transform *handle*))
+  (%nvg:reset-transform *canvas-handle*))
