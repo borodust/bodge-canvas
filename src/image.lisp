@@ -27,7 +27,7 @@
                      (%arrange-opts flip-vertically use-nearest-interpolation))))
       (c-with ((width :int)
                (height :int))
-        (%nvg:image-size (%handle-of context) id (width &) (height &))
+        (%nanovg:image-size (%handle-of context) id (width &) (height &))
         (make-instance 'nvg-image :id id :width width :height height)))))
 
 

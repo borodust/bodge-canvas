@@ -37,16 +37,16 @@
 (defun %apply-font (canvas font)
   (let ((context *canvas-handle*))
     (if-let ((face-id (%face-of font)))
-      (%nvg:font-face-id context face-id)
-      (%nvg:font-face-id context (%default-font-of canvas)))
+      (%nanovg:font-face-id context face-id)
+      (%nanovg:font-face-id context (%default-font-of canvas)))
     (when-let ((size (%size-of font)))
-      (%nvg:font-size context (f size)))
+      (%nanovg:font-size context (f size)))
     (when-let ((spacing (%letter-spacing-of font)))
-      (%nvg:text-letter-spacing context (f spacing)))
+      (%nanovg:text-letter-spacing context (f spacing)))
     (when-let ((line-height (%line-height-of font)))
-      (%nvg:text-line-height context (f line-height)))
+      (%nanovg:text-line-height context (f line-height)))
     (when-let ((alignment (%alignment-of font)))
-      (%nvg:text-align context alignment))))
+      (%nanovg:text-align context alignment))))
 
 
 (defmacro with-font ((font) &body body)
@@ -61,7 +61,7 @@
 
 (defun canvas-text-bounds (string &optional (canvas *canvas*))
   (static-vectors:with-static-vector (bounds 4 :element-type 'single-float)
-    (let* ((advance (%nvg:text-bounds (%handle-of canvas) 0f0 0f0 string (cffi:null-pointer)
+    (let* ((advance (%nanovg:text-bounds (%handle-of canvas) 0f0 0f0 string (cffi:null-pointer)
                                       (static-vectors:static-vector-pointer bounds)))
            (height (- (aref bounds 3) (aref bounds 1)))
            (width (- (aref bounds 2) (aref bounds 0))))
@@ -69,7 +69,7 @@
 
 
 (defun canvas-text-advance (string &optional (canvas *canvas*))
-  (%nvg:text-bounds (%handle-of canvas) 0f0 0f0 string nil nil))
+  (%nanovg:text-bounds (%handle-of canvas) 0f0 0f0 string nil nil))
 
 ;;;
 ;;; Metrics
@@ -83,7 +83,7 @@
 
 (defun canvas-font-metrics (&optional (canvas *canvas*))
   (c-with ((ascender :float) (descender :float) (line-height :float))
-    (%nvg:text-metrics (%handle-of canvas) (ascender &) (descender &) (line-height &))
+    (%nanovg:text-metrics (%handle-of canvas) (ascender &) (descender &) (line-height &))
     (make-font-metrics :line-height line-height
                        :ascender ascender
                        :descender descender)))

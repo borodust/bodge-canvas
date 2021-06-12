@@ -34,14 +34,14 @@
 
 
 (defclass image-paint ()
-  ((handle :initform (cffi:foreign-alloc '(:struct %nvg:paint)) :reader %handle-of)
+  ((handle :initform (cffi:foreign-alloc '(:struct %nanovg:paint)) :reader %handle-of)
    (image :initform nil)))
 
 
 (defmethod initialize-instance :after ((this image-paint) &key image context)
   (with-slots ((this-image image) handle) this
     (setf this-image image)
-    (%nvg:image-pattern handle (%handle-of context)
+    (%nanovg:image-pattern handle (%handle-of context)
                         0.0 0.0 (f (nvg-image-width image)) (f (nvg-image-height image))
                         0.0
                         (nvg-image-id image) 1.0)))
@@ -81,8 +81,8 @@
 
 
 (defmethod (setf fill-paint) ((value image-paint))
-  (%nvg:fill-paint *canvas-handle* (%handle-of value)))
+  (%nanovg:fill-paint *canvas-handle* (%handle-of value)))
 
 
 (defmethod (setf stroke-paint) ((value image-paint))
-  (%nvg:fill-paint *canvas-handle* (%handle-of value)))
+  (%nanovg:fill-paint *canvas-handle* (%handle-of value)))

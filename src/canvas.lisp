@@ -39,9 +39,9 @@
 
 
 (defun %ensure-font-face (canvas name foreign-data-ptr data-size)
-  (let ((font-face-id (%nvg:find-font (%handle-of canvas) (namestring name))))
+  (let ((font-face-id (%nanovg:find-font (%handle-of canvas) (namestring name))))
     (if (< font-face-id 0)
-        (%nvg:create-font-mem (%handle-of canvas) (namestring name)
+        (%nanovg:create-font-mem (%handle-of canvas) (namestring name)
                               foreign-data-ptr data-size 0)
         font-face-id)))
 
@@ -74,7 +74,7 @@
            (font-id (%ensure-font-face this *default-font-name*
                                       (static-vectors:static-vector-pointer default-font-data)
                                       (length default-font-data))))
-      (%nvg:add-fallback-font-id (%handle-of this) font-id font-id)
+      (%nanovg:add-fallback-font-id (%handle-of this) font-id font-id)
       (setf default-font-id font-id))))
 
 
@@ -94,23 +94,23 @@
 
 
 (defun %invert-coordinate-system ()
-  (%nvg:translate *canvas-handle* 0f0 (f (canvas-height *canvas*)))
-  (%nvg:scale *canvas-handle* 1f0 -1f0))
+  (%nanovg:translate *canvas-handle* 0f0 (f (canvas-height *canvas*)))
+  (%nanovg:scale *canvas-handle* 1f0 -1f0))
 
 
 (defun %restore-coordinate-system ()
-  (%nvg:scale *canvas-handle* 1f0 -1f0)
-  (%nvg:translate *canvas-handle* 0f0 (f (- (canvas-height *canvas*)))))
+  (%nanovg:scale *canvas-handle* 1f0 -1f0)
+  (%nanovg:translate *canvas-handle* 0f0 (f (- (canvas-height *canvas*)))))
 
 
 (defun begin-canvas ()
-  (%nvg:begin-frame *canvas-handle* (f (canvas-width *canvas*)) (f (canvas-height *canvas*))
+  (%nanovg:begin-frame *canvas-handle* (f (canvas-width *canvas*)) (f (canvas-height *canvas*))
                     (f (%pixel-ratio-of *canvas*)))
   (%invert-coordinate-system))
 
 
 (defun end-canvas ()
-  (%nvg:end-frame *canvas-handle*))
+  (%nanovg:end-frame *canvas-handle*))
 
 
 (defun flush-canvas ()
@@ -130,33 +130,33 @@
 
 
 (defun stroke-color (color)
-  (c-with ((color-v %nvg:color))
+  (c-with ((color-v %nanovg:color))
     (setf (color-v :r) (x color)
           (color-v :g) (y color)
           (color-v :b) (z color)
           (color-v :a) (w color))
-    (%nvg:stroke-color *canvas-handle* (color-v &))))
+    (%nanovg:stroke-color *canvas-handle* (color-v &))))
 
 
 (defun fill-color (color)
-  (c-with ((color-v %nvg:color))
+  (c-with ((color-v %nanovg:color))
     (setf (color-v :r) (x color)
           (color-v :g) (y color)
           (color-v :b) (z color)
           (color-v :a) (w color))
-    (%nvg:fill-color *canvas-handle* (color-v &))))
+    (%nanovg:fill-color *canvas-handle* (color-v &))))
 
 
 (defun push-canvas ()
-  (%nvg:save *canvas-handle*))
+  (%nanovg:save *canvas-handle*))
 
 
 (defun pop-canvas ()
-  (%nvg:restore *canvas-handle*))
+  (%nanovg:restore *canvas-handle*))
 
 
 (defun reset-canvas ()
-  (%nvg:reset *canvas-handle*))
+  (%nanovg:reset *canvas-handle*))
 
 
 (defmacro with-retained-canvas (&body body)
@@ -258,4 +258,4 @@
 
 
 (defun antialias-shapes (value)
-  (%nvg:shape-anti-alias *canvas-handle* (if value 1 0)))
+  (%nanovg:shape-anti-alias *canvas-handle* (if value 1 0)))

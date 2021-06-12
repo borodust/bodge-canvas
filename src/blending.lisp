@@ -38,7 +38,7 @@
 
 
 (defun composite-operation->nvg (op)
-  (cffi:foreign-enum-value '%nvg:composite-operation
+  (cffi:foreign-enum-value '%nanovg:composite-operation
                            (case op
                              (:source-atop :atop)
                              (t op))))
@@ -46,7 +46,7 @@
 
 (defun switch-composite-operation (canvas)
   (assert (composite-operation-p *composite-operation*))
-  (%nvg:global-composite-operation (%handle-of canvas)
+  (%nanovg:global-composite-operation (%handle-of canvas)
                                    (composite-operation->nvg *composite-operation*)))
 
 
@@ -62,7 +62,7 @@
 ;;; BLENDING
 ;;;
 (defun blend-factor->nvg (op)
-  (cffi:foreign-enum-value '%nvg:blend-factor
+  (cffi:foreign-enum-value '%nanovg:blend-factor
                            (case op
                              (:source-color :src-color)
                              (:one-minus-source-color :one-minus-src-color)
@@ -77,7 +77,7 @@
 
 
 (defun switch-blend-factors (canvas)
-  (%nvg:global-composite-blend-func-separate
+  (%nanovg:global-composite-blend-func-separate
    (%handle-of canvas)
    (blend-factor->nvg *source-factor*)
    (blend-factor->nvg *destination-factor*)
@@ -114,6 +114,6 @@
                                        (float ,value 0f0)
                                        (* (float ,value 0f0) *alpha*))
                                   `(* (float ,value 0f0) *alpha*))))
-                (%nvg:global-alpha (%handle-of ,cnvs) *alpha*)
+                (%nanovg:global-alpha (%handle-of ,cnvs) *alpha*)
                 ,@body)
-           (%nvg:global-alpha (%handle-of ,cnvs) *alpha*))))))
+           (%nanovg:global-alpha (%handle-of ,cnvs) *alpha*))))))

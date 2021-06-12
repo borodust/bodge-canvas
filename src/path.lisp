@@ -1,7 +1,7 @@
 (cl:in-package :bodge-canvas)
 
 
-(define-constant +default-winding+ (cffi:foreign-bitfield-value '%nvg:winding :cw)
+(define-constant +default-winding+ (cffi:foreign-bitfield-value '%nanovg:winding :cw)
   :test #'=)
 
 (defenum path-winding
@@ -22,11 +22,11 @@
 
 
 (definline fill-path ()
-  (%nvg:fill *canvas-handle*))
+  (%nanovg:fill *canvas-handle*))
 
 
 (definline stroke-path ()
-  (%nvg:stroke *canvas-handle*))
+  (%nanovg:stroke *canvas-handle*))
 
 
 (defun stroke-width ()
@@ -35,26 +35,26 @@
 
 
 (definline (setf stroke-width) (width)
-  (%nvg:stroke-width *canvas-handle* (f width)))
+  (%nanovg:stroke-width *canvas-handle* (f width)))
 
 
 (defun wind-path (winding)
-  (%nvg:path-winding *canvas-handle* (cffi:foreign-bitfield-value '%nanovg:solidity
+  (%nanovg:path-winding *canvas-handle* (cffi:foreign-bitfield-value '%nanovg:solidity
                                                            winding)))
 
 
 (definline move-to (coords)
-  (%nvg:move-to *canvas-handle* (x coords) (y coords)))
+  (%nanovg:move-to *canvas-handle* (x coords) (y coords)))
 
 
 (defmacro path (&body body)
   `(progn
-     (%nvg:begin-path *canvas-handle*)
+     (%nanovg:begin-path *canvas-handle*)
      ,@body))
 
 
 (defun scissors (origin w h)
-  (%nvg:scissor *canvas-handle*
+  (%nanovg:scissor *canvas-handle*
                 (x origin) (y origin)
                 (f w) (f h)))
 
@@ -64,7 +64,7 @@
 
 
 (defun (setf line-cap) (value)
-  (%nvg:line-cap *canvas-handle* (cffi:foreign-enum-value '%nvg:line-cap value)))
+  (%nanovg:line-cap *canvas-handle* (cffi:foreign-enum-value '%nanovg:line-cap value)))
 
 
 (defun line-join ()
@@ -72,43 +72,43 @@
 
 
 (defun (setf line-join) (value)
-  (%nvg:line-join *canvas-handle* (cffi:foreign-enum-value '%nvg:line-cap value)))
+  (%nanovg:line-join *canvas-handle* (cffi:foreign-enum-value '%nanovg:line-cap value)))
 
 
 (defun line-to (end)
-  (%nvg:line-to *canvas-handle* (x end) (y end)))
+  (%nanovg:line-to *canvas-handle* (x end) (y end)))
 
 
 (defun bezier-to (ctrl0 ctrl1 end)
-  (%nvg:bezier-to *canvas-handle*
+  (%nanovg:bezier-to *canvas-handle*
                   (x ctrl0) (y ctrl0)
                   (x ctrl1) (y ctrl1)
                   (x end) (y end)))
 
 
 (defun rounded-rect (origin width height &optional rounding)
-  (%nvg:rounded-rect *canvas-handle* (x origin) (y origin)
+  (%nanovg:rounded-rect *canvas-handle* (x origin) (y origin)
                      (f width) (f height)
                      (f (or rounding 0))))
 
 
 (defun circle (center radius)
-  (%nvg:circle *canvas-handle* (x center) (y center) (f radius)))
+  (%nanovg:circle *canvas-handle* (x center) (y center) (f radius)))
 
 
 (defun ellipse (center x-radius y-radius)
-  (%nvg:ellipse *canvas-handle*
+  (%nanovg:ellipse *canvas-handle*
                 (x center) (y center) (f x-radius) (f y-radius)))
 
 
 (defun arc (center radius a0 a1)
-  (%nvg:arc *canvas-handle* (x center) (y center) (f radius)
+  (%nanovg:arc *canvas-handle* (x center) (y center) (f radius)
             (f a0) (f a1) +default-winding+))
 
 
 (defun text (position text)
   (with-retained-canvas
     (%restore-coordinate-system)
-    (%nvg:text *canvas-handle*
+    (%nanovg:text *canvas-handle*
                (x position) (f (- (canvas-height *canvas*) (y position)))
                text (cffi:null-pointer))))
