@@ -59,6 +59,18 @@
                 (f w) (f h)))
 
 
+(defun reset-scissors ()
+  (%nanovg:reset-scissor *canvas-handle*))
+
+
+(defmacro with-scissors (origin w h &body body)
+  `(unwind-protect
+        (progn
+          (scissors ,origin ,w ,h)
+          ,@body)
+     (reset-scissors)))
+
+
 (defun line-cap ()
   (error "Only setter available"))
 
