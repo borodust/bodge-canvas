@@ -45,6 +45,8 @@
            #:clear-buffers
            #:reset-viewport
            #:apply-scissors
+           #:reset-scissors
+           #:with-scissors
            #:draw-line
            #:draw-curve
            #:draw-rect
