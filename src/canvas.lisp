@@ -130,7 +130,7 @@
 
 
 (defun stroke-color (color)
-  (c-with ((color-v %nanovg:color))
+  (c-with ((color-v %nanovg:|C:@S@NV-GCOLOR@UA@SA|))
     (setf (color-v :r) (x color)
           (color-v :g) (y color)
           (color-v :b) (z color)
@@ -139,7 +139,7 @@
 
 
 (defun fill-color (color)
-  (c-with ((color-v %nanovg:color))
+  (c-with ((color-v %nanovg:|C:@S@NV-GCOLOR@UA@SA|))
     (setf (color-v :r) (x color)
           (color-v :g) (y color)
           (color-v :b) (z color)
